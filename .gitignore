@@ -1,0 +1,6 @@
+data/*
+out
+
+venv
+venv/
+venv/*
