@@ -10,7 +10,11 @@ Hiện tại thì có thể xử lý khoảng 43 files trong 7.8s (máy mạnh t
 
 ## Change logs
 
-Hiện tại phiên bản 0.1.0 hỗ trợ:
+### Phiên bản 0.1.1:
+
+- Phân tách code để có thể tái sử dụng ở nhiều nơi.
+
+### Phiên bản 0.1.0:
 
 - Convert 1 file duy nhất.
 - Convert nhiều file.
