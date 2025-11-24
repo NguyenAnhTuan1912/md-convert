@@ -4,6 +4,7 @@ from pathlib import Path
 
 from markitdown import MarkItDown
 
+import config
 from utils import to_chunks
 
 
@@ -12,16 +13,16 @@ class MDConverter:
         self,
         ori_folder_name: str,
         out_folder_name: str,
-        total_of_workers: int,
-        total_of_concurrent_processed_files: int,
     ):
         self.md = MarkItDown(enable_plugins=False)
         self.ori_folder_name = ori_folder_name
         self.out_folder_name = out_folder_name
-        self.total_of_workers = total_of_workers
-        self.total_of_concurrent_processed_files = total_of_concurrent_processed_files
+        self.total_of_workers = config.total_of_workers
+        self.total_of_concurrent_processed_files = (
+            config.total_of_concurrent_processed_files
+        )
 
-    def convert_file(self, md: MarkItDown, file_path: str):
+    def convert_file(self, file_path: str):
         """Convert a file to markdown.
 
         Args:
@@ -29,7 +30,7 @@ class MDConverter:
             file_path (str): path to file.
         """
         try:
-            result = md.convert(os.path.join(self.ori_folder_name, file_path))
+            result = self.md.convert(os.path.join(self.ori_folder_name, file_path))
 
             out_file_name = os.path.splitext(file_path)[0]
             out_file_path = os.path.normpath(
@@ -40,24 +41,30 @@ class MDConverter:
 
             with open(out_file_path, "w", encoding="utf-8") as f:
                 f.write(result.text_content)
+
+            return True
         except Exception as e:
             print(f"Cannot convert file: {file_path}")
+            return False
 
-    def convert_files(self, md: MarkItDown, file_paths: list[str]):
+    def convert_files(self, file_paths: list[str]):
         """Convert multiple files to markdown.
 
         Args:
-            md (MarkItDown): converter core.
             file_paths (list[str]): path to file.
         """
-        for file_path in file_paths:
-            self.convert_file(md, file_path)
+        count = 0
 
-    def convert_in_folder(self, md: MarkItDown, folder_name: str):
-        """Convert all files in a folder.
+        for file_path in file_paths:
+            if self.convert_file(file_path):
+                count += 1
+
+        return count
+
+    def convert_in_folder_concurrently(self, folder_name: str):
+        """Convert concurrently all files in a folder in multiple threads.
 
         Args:
-            md (MarkItDown): converter core.
             folder_name (str): name of folder
         """
         target_path = os.path.abspath(os.path.join(self.ori_folder_name, folder_name))
@@ -80,7 +87,7 @@ class MDConverter:
         )
 
         for i in range(process_thread_count):
-            t = threading.Thread(target=self.convert_files, args=(md, item_chunks[i]))
+            t = threading.Thread(target=self.convert_files, args=([item_chunks[i]]))
             t.start()
             threads.append(t)
 
