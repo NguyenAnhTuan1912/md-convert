@@ -37,6 +37,15 @@ Sau đó tiến hành cài đặt packages.
 
 ```bash
 pip install -r requirements.txt
+
+# Cài thêm để chạy trong Local
+pip install -r requirements.dev.txt
+```
+
+Tiếp theo là cái ChandraOCR
+
+```bash
+pip install chandra-ocr --prefer-binary
 ```
 
 > Note: bài này được thử nghiệm trên Python 3.12.
@@ -56,11 +65,50 @@ Trường hợp này là do máy chưa cài các công cụ thích hợp để �
 brew install ffmpeg
 ```
 
-- Với Linux: cài với apt, yum, ...
+- Với Linux (Ubuntu / Debian)
 
 ```bash
 sudo apt-get update
 sudo apt-get install ffmpeg
+```
+
+#### Chandra OCR Installation Error
+
+> Note: đa phần các máy sẽ không có, nên bạn cần cài đống này trước tiên để tránh lỗi các phát sinh không mong muốn.
+
+Nếu cài Chandra OCR mà bị lỗi như này có nghĩa là đang thiếu các gói FFmpeg.
+
+```
+× Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [11 lines of output]
+      Package libavformat was not found in the pkg-config search path.
+      Perhaps you should add the directory containing `libavformat.pc'
+      to the PKG_CONFIG_PATH environment variable
+      Package 'libavformat' not found
+      Package 'libavcodec' not found
+      Package 'libavdevice' not found
+      Package 'libavutil' not found
+      Package 'libavfilter' not found
+      Package 'libswscale' not found
+      Package 'libswresample' not found
+      pkg-config could not find libraries ['avformat', 'avcodec', 'avdevice', 'avutil', 'avfilter', 'swscale', 'swresample']
+      [end of output]
+```
+
+- Với MacOS: cài từ brew.
+
+```bash
+brew install pkg-config ffmpeg
+```
+
+- Với Linux (Ubuntu / Debian)
+
+```bash
+sudo apt update
+sudo apt install ffmpeg libavcodec-dev libavformat-dev libavdevice-dev \
+                 libavutil-dev libavfilter-dev libswscale-dev libswresample-dev \
+                 pkg-config
 ```
 
 ## How to run?
@@ -68,7 +116,7 @@ sudo apt-get install ffmpeg
 Để chạy thì gõ lệnh
 
 ```bash
-python src/main.py
+python test/md_convert.test.py
 ```
 
-Sau đó thì điền các thông tin tương ứng.
+Hoặc các file script khác.

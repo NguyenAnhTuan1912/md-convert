@@ -1,2 +1,2 @@
 markitdown[all]
-rich==14.2.0
+docling==2.63.0
