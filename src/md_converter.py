@@ -2,10 +2,11 @@ import os
 import threading
 from pathlib import Path
 
-from markitdown import MarkItDown
+from markitdown import MarkItDown, PRIORITY_SPECIFIC_FILE_FORMAT
 
 import config
 from utils import to_chunks
+from plugins.ecv_pdf_converter import ECVPDFConverter
 
 
 class MDConverter:
@@ -14,7 +15,9 @@ class MDConverter:
         ori_folder_name: str,
         out_folder_name: str,
     ):
-        self.md = MarkItDown(enable_plugins=False)
+        self.md = MarkItDown(enable_plugins=True)
+        self.md.register_converter(ECVPDFConverter(), priority=PRIORITY_SPECIFIC_FILE_FORMAT)
+
         self.ori_folder_name = ori_folder_name
         self.out_folder_name = out_folder_name
         self.total_of_workers = config.total_of_workers
@@ -61,13 +64,13 @@ class MDConverter:
 
         return count
 
-    def convert_in_folder_concurrently(self, folder_name: str):
+    def convert_in_folder_concurrently(self, folder_path: str):
         """Convert concurrently all files in a folder in multiple threads.
 
         Args:
-            folder_name (str): name of folder
+            folder_path (str): path to folder
         """
-        target_path = os.path.abspath(os.path.join(self.ori_folder_name, folder_name))
+        target_path = os.path.abspath(os.path.join(self.ori_folder_name, folder_path))
         folder = Path(target_path)
         file_paths = []
         threads = []
