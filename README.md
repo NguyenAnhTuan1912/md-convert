@@ -8,17 +8,6 @@ Hiện tại thì có thể xử lý khoảng 43 files trong 7.8s (máy mạnh t
 
 ![benchmark 1](./images/benchmark-1.png)
 
-## Change logs
-
-### Phiên bản 0.1.1:
-
-- Phân tách code để có thể tái sử dụng ở nhiều nơi.
-
-### Phiên bản 0.1.0:
-
-- Convert 1 file duy nhất.
-- Convert nhiều file.
-
 ## Installation
 
 Đầu tiên thì phải tạo môi trường ảo trước.
@@ -36,10 +25,10 @@ source ./venv/bin/activate
 Sau đó tiến hành cài đặt packages.
 
 ```bash
-pip install -r requirements.txt
+pip install .
 
 # Cài thêm để chạy trong Local
-pip install -r requirements.dev.txt
+pip install .[dev]
 ```
 
 Tiếp theo là cái ChandraOCR
@@ -75,6 +64,8 @@ sudo apt-get install ffmpeg
 #### Chandra OCR Installation Error
 
 > Note: đa phần các máy sẽ không có, nên bạn cần cài đống này trước tiên để tránh lỗi các phát sinh không mong muốn.
+
+> Note 2: tạm thời thì ChandraOCR vẫn chưa được sử dụng mà sẽ nằm ở trong kế hoạch về sau.
 
 Nếu cài Chandra OCR mà bị lỗi như này có nghĩa là đang thiếu các gói FFmpeg.
 
