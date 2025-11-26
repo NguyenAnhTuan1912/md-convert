@@ -67,8 +67,9 @@ def main():
 
     print("====================")
     rich_print(f"Total time: [green]{end - start:.4f}s[/green]")
+
     rich_print(
-        f"Converted: [green]{len(list_files_in_folder(os.path.abspath(os.path.join(out_folder_name, file_or_folder_name))))} file(s)[/green]"
+        f"Converted: [green]{len(list_files_in_folder(os.path.abspath(os.path.join(out_folder_name, os.path.dirname(file_or_folder_name)))))} file(s)[/green]"
     )
 
 

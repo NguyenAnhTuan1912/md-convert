@@ -28,6 +28,13 @@ out_file_path = os.path.abspath(os.path.join(out_folder_name, str.format(f"{ori_
 
 os.makedirs(os.path.dirname(out_file_path), exist_ok=True)
 
-with open(out_file_path, "w", encoding="utf-8") as f:
-    content = result.document.export_to_html()
-    f.write(content)
+example_tables = result.document.tables[0]
+
+if example_tables:
+    table_data = example_tables.data
+    # table_data.table_cells
+    print(table_data.model_dump_json())
+
+# with open(out_file_path, "w", encoding="utf-8") as f:
+#     content = result.document.export_to_html()
+#     f.write(content)
